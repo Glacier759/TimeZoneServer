@@ -59,11 +59,11 @@ public class Student {
         this.stuMajor = stuMajor == null ? null : stuMajor.trim();
     }
 
-    public String getstuIntroduction() {
+    public String getStuIntroduction() {
         return stuIntroduction;
     }
 
-    public void setstuIntroduction(String stuIntroduction) {
+    public void setStuIntroduction(String stuIntroduction) {
         this.stuIntroduction = stuIntroduction == null ? null : stuIntroduction.trim();
     }
 

@@ -2,6 +2,9 @@ package com.glacier.tz.dao;
 
 import com.glacier.tz.model.Sign;
 
+import java.util.HashMap;
+import java.util.List;
+
 public interface SignMapper {
     int deleteByPrimaryKey(Integer id);
 
@@ -14,4 +17,6 @@ public interface SignMapper {
     int updateByPrimaryKeySelective(Sign record);
 
     int updateByPrimaryKey(Sign record);
+
+    List<Sign> selectSignRecords(HashMap<String,String> params);
 }

@@ -4,15 +4,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.glacier.tz.model.Student;
 import com.glacier.tz.service.AccountService;
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * Created by glacier on 15-12-2.
@@ -27,7 +26,7 @@ public class AccountController {
 
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public JSONObject login(@Param("username")String username, @Param("password")String password) {
+    public JSONObject login(@RequestParam("username")String username, @RequestParam("password")String password) {
 
         Student student = accountService.login(username, password);
         JSONObject result = new JSONObject();
@@ -46,7 +45,7 @@ public class AccountController {
 
     @ResponseBody
     @RequestMapping(value = "/introduction", method = RequestMethod.GET)
-    public JSONObject information(@Param("accessToken")String accessToken, @Param("content")String introduction) {
+    public JSONObject information(@RequestParam("accessToken")String accessToken, @RequestParam("content")String introduction) {
 
         JSONObject result = new JSONObject();
         if ( accountService.updateIntroduction(accessToken, introduction) != 0){
@@ -60,7 +59,7 @@ public class AccountController {
 
     @ResponseBody
     @RequestMapping(value = "/information", method = RequestMethod.GET)
-    public JSONObject information(@Param("accessToken")String accessToken) {
+    public JSONObject information(@RequestParam("accessToken")String accessToken) {
 
         JSONObject result = new JSONObject();
         Student student = accountService.getStudentByAccessToken(accessToken);
@@ -72,6 +71,12 @@ public class AccountController {
             result.put("status", 500);
         }
         return result;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public List<Student> test() {
+        return accountService.selectAllStudents();
     }
 
 }

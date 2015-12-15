@@ -67,6 +67,7 @@ public class AccountServiceImpl implements AccountService {
                     logger.info("login - " + JSON.toJSONString(student));
                 }
                 else {
+                    student.setStuIntroduction("他还没有填写自我介绍哟~");
                     studentMapper.insert(student);
                     logger.info("new user - " + JSON.toJSONString(student));
                 }
@@ -86,6 +87,10 @@ public class AccountServiceImpl implements AccountService {
 
     public Student getStudentByAccessToken(String accessToken) {
         return studentMapper.selectByAccessToken(accessToken);
+    }
+
+    public List<Student> selectAllStudents() {
+        return studentMapper.selectAllStudents();
     }
 
 }

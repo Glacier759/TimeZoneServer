@@ -21,7 +21,7 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="com.glacier.tz.model.Sign" >
-    insert into tb_sign (id, access_token, operation, 
+    insert into tb_sign (id, access_token, operation,
       date)
     values (#{id,jdbcType=INTEGER}, #{accessToken,jdbcType=CHAR}, #{operation,jdbcType=INTEGER}, 
       #{date,jdbcType=TIMESTAMP})
@@ -79,4 +79,11 @@
       date = #{date,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <select id="selectSignRecords" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sign
+    <![CDATA[where date >= #{begin,jdbcType=VARCHAR} and date <= #{end,jdbcType=VARCHAR}]]>
+  </select>
+
 </mapper>
