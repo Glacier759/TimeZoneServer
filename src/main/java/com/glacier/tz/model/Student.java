@@ -13,9 +13,11 @@ public class Student {
 
     private String stuMajor;
 
-    private String stuInformation;
+    private String stuIntroduction;
 
     private byte[] stuHead;
+
+    private String accessToken;
 
     public Integer getId() {
         return id;
@@ -57,12 +59,12 @@ public class Student {
         this.stuMajor = stuMajor == null ? null : stuMajor.trim();
     }
 
-    public String getStuInformation() {
-        return stuInformation;
+    public String getstuIntroduction() {
+        return stuIntroduction;
     }
 
-    public void setStuInformation(String stuInformation) {
-        this.stuInformation = stuInformation == null ? null : stuInformation.trim();
+    public void setstuIntroduction(String stuIntroduction) {
+        this.stuIntroduction = stuIntroduction == null ? null : stuIntroduction.trim();
     }
 
     public byte[] getStuHead() {
@@ -73,6 +75,14 @@ public class Student {
         this.stuHead = stuHead;
     }
 
+    public String getAccessToken() {
+        return accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
     @Override
     public String toString() {
         return "Student{" +
@@ -81,8 +91,9 @@ public class Student {
                 ", stuName='" + stuName + '\'' +
                 ", stuClass='" + stuClass + '\'' +
                 ", stuMajor='" + stuMajor + '\'' +
-                ", stuInformation='" + stuInformation + '\'' +
+                ", stuIntroduction='" + stuIntroduction + '\'' +
                 ", stuHead=" + Arrays.toString(stuHead) +
+                ", accessToken='" + accessToken + '\'' +
                 '}';
     }
 }

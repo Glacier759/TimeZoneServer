@@ -7,13 +7,14 @@
         <result column="stu_name" property="stuName" jdbcType="VARCHAR"/>
         <result column="stu_class" property="stuClass" jdbcType="VARCHAR"/>
         <result column="stu_major" property="stuMajor" jdbcType="VARCHAR"/>
-        <result column="stu_information" property="stuInformation" jdbcType="VARCHAR"/>
+        <result column="stu_introduction" property="stuIntroduction" jdbcType="VARCHAR"/>
+        <result column="access_token" property="accessToken" jdbcType="VARCHAR"/>
     </resultMap>
     <resultMap id="ResultMapWithBLOBs" type="com.glacier.tz.model.Student" extends="BaseResultMap">
         <result column="stu_head" property="stuHead" jdbcType="LONGVARBINARY"/>
     </resultMap>
     <sql id="Base_Column_List">
-      id, stu_id, stu_name, stu_class, stu_major, stu_information
+      id, stu_id, stu_name, stu_class, stu_major, stu_introduction, access_token
     </sql>
     <sql id="Blob_Column_List">
       stu_head
@@ -32,11 +33,11 @@
     </delete>
     <insert id="insert" parameterType="com.glacier.tz.model.Student">
         insert into tb_student_info (id, stu_id, stu_name,
-        stu_class, stu_major, stu_information,
+        stu_class, stu_major, stu_introduction, access_token,
         stu_head)
         values (#{id,jdbcType=INTEGER}, #{stuId,jdbcType=VARCHAR}, #{stuName,jdbcType=VARCHAR},
-        #{stuClass,jdbcType=VARCHAR}, #{stuMajor,jdbcType=VARCHAR}, #{stuInformation,jdbcType=VARCHAR},
-        #{stuHead,jdbcType=LONGVARBINARY})
+        #{stuClass,jdbcType=VARCHAR}, #{stuMajor,jdbcType=VARCHAR}, #{stuIntroduction,jdbcType=VARCHAR},
+        #{accessToken,jdbcType=VARCHAR}, #{stuHead,jdbcType=LONGVARBINARY})
     </insert>
     <insert id="insertSelective" parameterType="com.glacier.tz.model.Student">
         insert into tb_student_info
@@ -56,8 +57,11 @@
             <if test="stuMajor != null">
                 stu_major,
             </if>
-            <if test="stuInformation != null">
-                stu_information,
+            <if test="stuIntroduction != null">
+                stu_introduction,
+            </if>
+            <if test="accessToken != null">
+                access_token,
             </if>
             <if test="stuHead != null">
                 stu_head,
@@ -79,8 +83,11 @@
             <if test="stuMajor != null">
                 #{stuMajor,jdbcType=VARCHAR},
             </if>
-            <if test="stuInformation != null">
-                #{stuInformation,jdbcType=VARCHAR},
+            <if test="stuIntroduction != null">
+                #{stuIntroduction,jdbcType=VARCHAR},
+            </if>
+            <if test="accessToken != null">
+                #{accessToken,jdbcType=VARCHAR},
             </if>
             <if test="stuHead != null">
                 #{stuHead,jdbcType=LONGVARBINARY},
@@ -102,8 +109,11 @@
             <if test="stuMajor != null">
                 stu_major = #{stuMajor,jdbcType=VARCHAR},
             </if>
-            <if test="stuInformation != null">
-                stu_information = #{stuInformation,jdbcType=VARCHAR},
+            <if test="stuIntroduction != null">
+                stu_introduction = #{stuIntroduction,jdbcType=VARCHAR},
+            </if>
+            <if test="accessToken != null">
+                access_token = #{accessToken,jdbcType=VARCHAR},
             </if>
             <if test="stuHead != null">
                 stu_head = #{stuHead,jdbcType=LONGVARBINARY},
@@ -117,7 +127,8 @@
       stu_name = #{stuName,jdbcType=VARCHAR},
       stu_class = #{stuClass,jdbcType=VARCHAR},
       stu_major = #{stuMajor,jdbcType=VARCHAR},
-      stu_information = #{stuInformation,jdbcType=VARCHAR},
+      stu_introduction = #{stuIntroduction,jdbcType=VARCHAR},
+      access_token = #{accessToken,jdbcType=VARCHAR},
       stu_head = #{stuHead,jdbcType=LONGVARBINARY}
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -127,7 +138,8 @@
       stu_name = #{stuName,jdbcType=VARCHAR},
       stu_class = #{stuClass,jdbcType=VARCHAR},
       stu_major = #{stuMajor,jdbcType=VARCHAR},
-      stu_information = #{stuInformation,jdbcType=VARCHAR}
+      stu_introduction = #{stuIntroduction,jdbcType=VARCHAR}
+      access_token = #{accessToken,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
     <select id="selectAllStudents" resultMap="ResultMapWithBLOBs">
@@ -144,5 +156,18 @@
         <include refid="Blob_Column_List"/>
         from tb_student_info WHERE stu_id = #{stuId}
     </select>
+    <update id="updateIntroductionByAccessToken" parameterType="java.util.HashMap">
+        update tb_student_info
+        set stu_introduction = #{introduction,jdbcType=VARCHAR}
+        where access_token = #{accessToken,jdbcType=VARCHAR}
+    </update>
+    <select id="selectByAccessToken" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_student_info WHERE access_token = #{accessToken}
+    </select>
+
 
 </mapper>

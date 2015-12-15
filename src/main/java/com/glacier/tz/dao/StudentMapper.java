@@ -2,6 +2,7 @@ package com.glacier.tz.dao;
 
 import com.glacier.tz.model.Student;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface StudentMapper {
@@ -22,4 +23,8 @@ public interface StudentMapper {
     List<Student> selectAllStudents();
 
     Student selectByStudentID(String stuId);
+
+    int updateIntroductionByAccessToken(HashMap params);
+
+    Student selectByAccessToken(String accessToken);
 }

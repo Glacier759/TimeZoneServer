@@ -1,2 +1,7 @@
+com\glacier\tz\service\impl\SignServiceImpl.class
+com\glacier\tz\utils\JsonUtils.class
+com\glacier\tz\controller\SignController.class
+com\glacier\tz\utils\HttpUtils.class
+com\glacier\tz\service\SignService.class
 com\glacier\tz\dao\StudentMapper.class
 com\glacier\tz\model\Student.class
