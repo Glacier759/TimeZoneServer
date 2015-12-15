@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.glacier.tz.dao.StudentMapper">
+    <resultMap id="BaseResultMap" type="com.glacier.tz.model.Student">
+        <id column="id" property="id" jdbcType="INTEGER"/>
+        <result column="stu_id" property="stuId" jdbcType="VARCHAR"/>
+        <result column="stu_name" property="stuName" jdbcType="VARCHAR"/>
+        <result column="stu_class" property="stuClass" jdbcType="VARCHAR"/>
+        <result column="stu_major" property="stuMajor" jdbcType="VARCHAR"/>
+        <result column="stu_information" property="stuInformation" jdbcType="VARCHAR"/>
+    </resultMap>
+    <resultMap id="ResultMapWithBLOBs" type="com.glacier.tz.model.Student" extends="BaseResultMap">
+        <result column="stu_head" property="stuHead" jdbcType="LONGVARBINARY"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+      id, stu_id, stu_name, stu_class, stu_major, stu_information
+    </sql>
+    <sql id="Blob_Column_List">
+      stu_head
+    </sql>
+    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_student_info
+        where id = #{id,jdbcType=INTEGER}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+        delete from tb_student_info
+        where id = #{id,jdbcType=INTEGER}
+    </delete>
+    <insert id="insert" parameterType="com.glacier.tz.model.Student">
+        insert into tb_student_info (id, stu_id, stu_name,
+        stu_class, stu_major, stu_information,
+        stu_head)
+        values (#{id,jdbcType=INTEGER}, #{stuId,jdbcType=VARCHAR}, #{stuName,jdbcType=VARCHAR},
+        #{stuClass,jdbcType=VARCHAR}, #{stuMajor,jdbcType=VARCHAR}, #{stuInformation,jdbcType=VARCHAR},
+        #{stuHead,jdbcType=LONGVARBINARY})
+    </insert>
+    <insert id="insertSelective" parameterType="com.glacier.tz.model.Student">
+        insert into tb_student_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="stuId != null">
+                stu_id,
+            </if>
+            <if test="stuName != null">
+                stu_name,
+            </if>
+            <if test="stuClass != null">
+                stu_class,
+            </if>
+            <if test="stuMajor != null">
+                stu_major,
+            </if>
+            <if test="stuInformation != null">
+                stu_information,
+            </if>
+            <if test="stuHead != null">
+                stu_head,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=INTEGER},
+            </if>
+            <if test="stuId != null">
+                #{stuId,jdbcType=VARCHAR},
+            </if>
+            <if test="stuName != null">
+                #{stuName,jdbcType=VARCHAR},
+            </if>
+            <if test="stuClass != null">
+                #{stuClass,jdbcType=VARCHAR},
+            </if>
+            <if test="stuMajor != null">
+                #{stuMajor,jdbcType=VARCHAR},
+            </if>
+            <if test="stuInformation != null">
+                #{stuInformation,jdbcType=VARCHAR},
+            </if>
+            <if test="stuHead != null">
+                #{stuHead,jdbcType=LONGVARBINARY},
+            </if>
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="com.glacier.tz.model.Student">
+        update tb_student_info
+        <set>
+            <if test="stuId != null">
+                stu_id = #{stuId,jdbcType=VARCHAR},
+            </if>
+            <if test="stuName != null">
+                stu_name = #{stuName,jdbcType=VARCHAR},
+            </if>
+            <if test="stuClass != null">
+                stu_class = #{stuClass,jdbcType=VARCHAR},
+            </if>
+            <if test="stuMajor != null">
+                stu_major = #{stuMajor,jdbcType=VARCHAR},
+            </if>
+            <if test="stuInformation != null">
+                stu_information = #{stuInformation,jdbcType=VARCHAR},
+            </if>
+            <if test="stuHead != null">
+                stu_head = #{stuHead,jdbcType=LONGVARBINARY},
+            </if>
+        </set>
+        where id = #{id,jdbcType=INTEGER}
+    </update>
+    <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.glacier.tz.model.Student">
+    update tb_student_info
+    set stu_id = #{stuId,jdbcType=VARCHAR},
+      stu_name = #{stuName,jdbcType=VARCHAR},
+      stu_class = #{stuClass,jdbcType=VARCHAR},
+      stu_major = #{stuMajor,jdbcType=VARCHAR},
+      stu_information = #{stuInformation,jdbcType=VARCHAR},
+      stu_head = #{stuHead,jdbcType=LONGVARBINARY}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <update id="updateByPrimaryKey" parameterType="com.glacier.tz.model.Student">
+    update tb_student_info
+    set stu_id = #{stuId,jdbcType=VARCHAR},
+      stu_name = #{stuName,jdbcType=VARCHAR},
+      stu_class = #{stuClass,jdbcType=VARCHAR},
+      stu_major = #{stuMajor,jdbcType=VARCHAR},
+      stu_information = #{stuInformation,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+    <select id="selectAllStudents" resultMap="ResultMapWithBLOBs">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_student_info
+    </select>
+
+</mapper>
