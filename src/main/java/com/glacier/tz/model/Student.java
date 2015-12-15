@@ -1,5 +1,7 @@
 package com.glacier.tz.model;
 
+import java.util.Arrays;
+
 public class Student {
     private Integer id;
 
@@ -69,5 +71,18 @@ public class Student {
 
     public void setStuHead(byte[] stuHead) {
         this.stuHead = stuHead;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" +
+                "id=" + id +
+                ", stuId='" + stuId + '\'' +
+                ", stuName='" + stuName + '\'' +
+                ", stuClass='" + stuClass + '\'' +
+                ", stuMajor='" + stuMajor + '\'' +
+                ", stuInformation='" + stuInformation + '\'' +
+                ", stuHead=" + Arrays.toString(stuHead) +
+                '}';
     }
 }

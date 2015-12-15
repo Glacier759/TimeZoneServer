@@ -13,7 +13,14 @@
     <context:component-scan base-package="com.glacier.tz.controller" />
     <context:component-scan base-package="com.glacier.tz.service" />
     <!-- 扩充了注解驱动，可以将请求参数绑定到控制器参数 -->
-    <mvc:annotation-driven/>
+    <mvc:annotation-driven>
+        <!-- 消息转换器 解决ResponseBody中文乱码问题-->
+        <mvc:message-converters register-defaults="true">
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes" value="text/html;charset=UTF-8"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
     <!-- 静态资源处理  css js imgs -->
     <!--<mvc:resources location="/resources/**" mapping="/resources"/>-->
 

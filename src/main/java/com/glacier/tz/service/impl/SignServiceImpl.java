@@ -1,8 +1,9 @@
 package com.glacier.tz.service.impl;
 
+import com.alibaba.fastjson.JSON;
 import com.glacier.tz.dao.StudentMapper;
 import com.glacier.tz.model.Student;
-import com.glacier.tz.service.Login;
+import com.glacier.tz.service.SignService;
 import com.glacier.tz.utils.HttpUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.log4j.Logger;
@@ -16,19 +17,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Glacierlx on 2015/12/14.
+ * Created by Glacierlx on 2015/12/15.
  */
 @Service
-public class LoginImpl implements Login {
+public class SignServiceImpl implements SignService {
 
-    private static Logger logger = Logger.getLogger(LoginImpl.class.getName());
+    Logger logger = Logger.getLogger(SignServiceImpl.class);
 
     @Resource
     private StudentMapper studentMapper;
-
-    public List<Student> test() {
-        return studentMapper.selectAllStudents();
-    }
 
     public Student login(String tid, String password) {
 
@@ -60,8 +57,19 @@ public class LoginImpl implements Login {
                 student.setStuName(document.getElementById("xm").text());
                 student.setStuClass(document.getElementById("lbl_xzb").text());
                 student.setStuMajor(document.getElementById("lbl_zymc").text());
+
+                Student stu = studentMapper.selectByStudentID(student.getStuId());
+                if ( stu != null ) {
+                    student = stu;
+                    logger.info("loginr - " + JSON.toJSONString(student));
+                }
+                else {
+                    studentMapper.insert(student);
+                    logger.info("new user - " + JSON.toJSONString(stu));
+                }
             }
         }
         return student;
     }
+
 }
