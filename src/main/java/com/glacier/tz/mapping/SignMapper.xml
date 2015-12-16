@@ -3,12 +3,17 @@
 <mapper namespace="com.glacier.tz.dao.SignMapper" >
   <resultMap id="BaseResultMap" type="com.glacier.tz.model.Sign" >
     <id column="id" property="id" jdbcType="INTEGER" />
-    <result column="access_token" property="accessToken" jdbcType="CHAR" />
     <result column="operation" property="operation" jdbcType="INTEGER" />
     <result column="date" property="date" jdbcType="TIMESTAMP" />
   </resultMap>
+  <resultMap id="ResultMapWithAccess" type="com.glacier.tz.model.Sign" extends="BaseResultMap">
+    <result column="access_token" property="accessToken" jdbcType="CHAR" />
+  </resultMap>
   <sql id="Base_Column_List" >
-    id, access_token, operation, date
+    id, operation, date
+  </sql>
+  <sql id="Access_Column_List">
+    access_token
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -79,11 +84,22 @@
       date = #{date,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select id="selectSignRecords" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+  <select id="selectSignRecords" resultMap="BaseResultMap" parameterType="java.util.Map" >
     select
     <include refid="Base_Column_List" />
     from tb_sign
-    <![CDATA[where date >= #{begin,jdbcType=VARCHAR} and date <= #{end,jdbcType=VARCHAR}]]>
+    <![CDATA[
+      where date >= #{begin,jdbcType=VARCHAR} and date <= #{end,jdbcType=VARCHAR}
+    ]]>
+  </select>
+  <select id="selectSignRecordsWithAccessToken" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_sign
+    <![CDATA[
+      where date >= #{begin,jdbcType=VARCHAR} and date <= #{end,jdbcType=VARCHAR}
+                                              and access_token =  #{accessToken,jdbcType=CHAR}
+    ]]>
   </select>
 
 </mapper>

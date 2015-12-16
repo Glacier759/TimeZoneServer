@@ -13,4 +13,6 @@ public interface SignService {
 
     public List<Sign> getRecordsByDate(String beginDate, String endDate);
 
+    public List<Sign> getRecordsByDateWithStuID(String stuID, String beginDate, String endDate);
+
 }

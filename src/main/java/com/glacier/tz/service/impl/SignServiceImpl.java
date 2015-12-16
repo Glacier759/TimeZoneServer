@@ -1,6 +1,7 @@
 package com.glacier.tz.service.impl;
 
 import com.glacier.tz.dao.SignMapper;
+import com.glacier.tz.dao.StudentMapper;
 import com.glacier.tz.model.Sign;
 import com.glacier.tz.service.SignService;
 import com.glacier.tz.utils.TimeUtils;
@@ -18,6 +19,8 @@ public class SignServiceImpl implements SignService {
 
     @Resource
     private SignMapper signMapper;
+    @Resource
+    private StudentMapper studentMapper;
 
     public int signOperation(String accessToken, int operation) {
         Sign sign = new Sign();
@@ -39,4 +42,17 @@ public class SignServiceImpl implements SignService {
         return signMapper.selectSignRecords(params);
     }
 
+    public List<Sign> getRecordsByDateWithStuID(String stuID, String beginDate, String endDate) {
+        HashMap<String,String> params = new HashMap<String,String>();
+        if (TimeUtils.aGreaterThanb(beginDate, endDate)) {
+            params.put("end", beginDate);
+            params.put("begin", endDate);
+        }
+        else {
+            params.put("begin", beginDate);
+            params.put("end", endDate);
+        }
+        params.put("accessToken", studentMapper.selectAccessTokenByStuID(stuID));
+        return signMapper.selectSignRecordsWithAccessToken(params);
+    }
 }

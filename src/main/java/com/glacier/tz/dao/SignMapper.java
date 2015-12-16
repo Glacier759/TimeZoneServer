@@ -19,4 +19,6 @@ public interface SignMapper {
     int updateByPrimaryKey(Sign record);
 
     List<Sign> selectSignRecords(HashMap<String,String> params);
+
+    List<Sign> selectSignRecordsWithAccessToken(HashMap<String,String> params);
 }

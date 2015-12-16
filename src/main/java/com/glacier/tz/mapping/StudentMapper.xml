@@ -154,7 +154,7 @@
         <include refid="Base_Column_List"/>
         ,
         <include refid="Blob_Column_List"/>
-        from tb_student_info WHERE stu_id = #{stuId}
+        from tb_student_info WHERE stu_id = #{stuId,jdbcType=VARCHAR}
     </select>
     <update id="updateIntroductionByAccessToken" parameterType="java.util.HashMap">
         update tb_student_info
@@ -166,8 +166,11 @@
         <include refid="Base_Column_List"/>
         ,
         <include refid="Blob_Column_List"/>
-        from tb_student_info WHERE access_token = #{accessToken}
+        from tb_student_info WHERE access_token = #{accessToken,jdbcType=VARCHAR}
     </select>
-
+    <select id="selectAccessTokenByStuID" resultType="java.lang.String" parameterType="java.lang.String">
+        select access_token
+        from tb_student_info WHERE stu_id = #{stuId,jdbcType=VARCHAR}
+    </select>
 
 </mapper>

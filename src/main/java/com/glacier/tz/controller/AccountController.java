@@ -37,6 +37,7 @@ public class AccountController {
         }
         else {
             result.put("status", 500);
+            result.put("errorMessage", "登录失败，账号密码不匹配");
         }
 
         return result;
@@ -53,6 +54,7 @@ public class AccountController {
         }
         else {
             result.put("status", 500);
+            result.put("errorMessage", "更新失败，AccessToken无效");
         }
         return result;
     }
@@ -69,14 +71,9 @@ public class AccountController {
         }
         else {
             result.put("status", 500);
+            result.put("errorMessage", "AccessToken无效");
         }
         return result;
-    }
-
-    @ResponseBody
-    @RequestMapping(value = "/test", method = RequestMethod.GET)
-    public List<Student> test() {
-        return accountService.selectAllStudents();
     }
 
 }

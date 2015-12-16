@@ -27,4 +27,7 @@ public interface StudentMapper {
     int updateIntroductionByAccessToken(HashMap params);
 
     Student selectByAccessToken(String accessToken);
+
+    String selectAccessTokenByStuID(String stuId);
+
 }
