@@ -1,6 +1,7 @@
 package com.glacier.tz.service.impl;
 
 import com.glacier.tz.dao.NoticeMapper;
+import com.glacier.tz.dao.StudentMapper;
 import com.glacier.tz.model.Notice;
 import com.glacier.tz.service.AccountService;
 import com.glacier.tz.service.NoticeService;
@@ -20,7 +21,7 @@ public class NoticeServiceImpl implements NoticeService {
     @Resource
     private NoticeMapper noticeMapper;
     @Resource
-    private AccountService accountService;
+    private StudentMapper studentMapper;
 
     public int addNotice(String accessToken, String content) {
         Notice record = new Notice();
@@ -34,7 +35,7 @@ public class NoticeServiceImpl implements NoticeService {
     }
 
     public List<Notice> getNoticeListWithStuID(String stuID, Integer skip) {
-        String accessToken = accountService.selectAccessTokenByStuID(stuID);
+        String accessToken = studentMapper.selectAccessTokenByStuID(stuID);
         return noticeMapper.selectNoticeWithSkipAndStuID(accessToken, skip * 10);
     }
 }
