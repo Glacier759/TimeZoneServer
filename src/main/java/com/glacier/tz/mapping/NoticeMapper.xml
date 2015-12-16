@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.glacier.tz.dao.NoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.glacier.tz.model.Notice" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="access_token" property="accessToken" jdbcType="CHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="date" property="date" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithAccess" type="com.glacier.tz.model.Notice" extends="BaseResultMap">
+    <result column="access_token" property="accessToken" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, content, date
+  </sql>
+  <sql id="Access_Column_List">
+    access_token
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_notice
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from tb_notice
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.glacier.tz.model.Notice" >
+    insert into tb_notice (id, access_token, content, 
+      date)
+    values (#{id,jdbcType=INTEGER}, #{accessToken,jdbcType=CHAR}, #{content,jdbcType=VARCHAR}, 
+      #{date,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.glacier.tz.model.Notice" >
+    insert into tb_notice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="accessToken != null" >
+        access_token,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="date != null" >
+        date,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="accessToken != null" >
+        #{accessToken,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        #{date,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.glacier.tz.model.Notice" >
+    update tb_notice
+    <set >
+      <if test="accessToken != null" >
+        access_token = #{accessToken,jdbcType=CHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="date != null" >
+        date = #{date,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.glacier.tz.model.Notice" >
+    update tb_notice
+    set access_token = #{accessToken,jdbcType=CHAR},
+      content = #{content,jdbcType=VARCHAR},
+      date = #{date,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectNoticeWithSkip" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_notice limit #{id,jdbcType=INTEGER},10
+  </select>
+  <select id="selectNoticeWithSkipAndStuID" resultMap="BaseResultMap" parameterType="java.util.Map" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_notice where (access_token = #{accessToken,jdbcType=CHAR}) limit #{skip,jdbcType=INTEGER},10
+  </select>
+
+</mapper>
