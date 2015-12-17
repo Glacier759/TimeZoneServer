@@ -5,7 +5,7 @@
 ## API接口说明
 > 账户相关接口
 
-* ##### 登陆 —— /account/login?username={username}&password={password} 
+* 登陆 —— /account/login?username={username}&password={password} 
 
 参数 | 说明
 ------|------------
@@ -32,7 +32,7 @@ username | 学号
 }
 ```
 
-* ##### 获取用户资料 —— /account/information?accessToken={accessToken}
+* 获取用户资料 —— /account/information?accessToken={accessToken}
 
 参数 | 说明
 ------|------------
@@ -58,7 +58,7 @@ username | 学号
 }
 ```
 
-* ##### 更新自我介绍 —— /account/introduction?accessToken={accessToken}&content={content}
+* 更新自我介绍 —— /account/introduction?accessToken={accessToken}&content={content}
 
 参数 | 说明
 ------|------------
@@ -78,7 +78,7 @@ content | 自我介绍正文部分
 
 > 动态模块相关接口
 
-* ##### 更新自我介绍 —— /notice/add?accessToken={accessToken}&content={content}
+* 更新自我介绍 —— /notice/add?accessToken={accessToken}&content={content}
 
 参数 | 说明
 ------|------------
@@ -96,7 +96,7 @@ content | 动态正文部分
 }
 ```
 
-* ##### 获取所有动态 —— /notice/all?accessToken={accessToken}
+* 获取所有动态 —— /notice/all?accessToken={accessToken}
 
 参数 | 说明
 ------|------------
@@ -128,7 +128,7 @@ content | 动态正文部分
 }
 ```
 
-* ##### 获取一段动态信息 —— /notice/section?accessToken={accessToken}&skip={skip}
+* 获取一段动态信息 —— /notice/section?accessToken={accessToken}&skip={skip}
 
 参数 | 说明
 ------|------------
@@ -167,7 +167,7 @@ content | 动态正文部分
 }
 ```
 
-* ##### 获取某一用户的一段动态信息 —— /notice/refresh?accessToken={accessToken}&stuID={stuID}&skip={skip}
+* 获取某一用户的一段动态信息 —— /notice/section_person?accessToken={accessToken}&stuID={stuID}&skip={skip}
 
 参数 | 说明
 ------|------------
@@ -207,7 +207,7 @@ content | 动态正文部分
 }
 ```
 
-* ##### 刷新动态信息 —— /notice/refresh?accessToken={accessToken}&lastID={lastID}
+* 刷新动态信息 —— /notice/refresh?accessToken={accessToken}&lastID={lastID}
 
 参数 | 说明
 ------|------------
@@ -241,7 +241,7 @@ content | 动态正文部分
 
 > 签到模块相关接口
 
-* ##### 签到到达 —— /sign/in?accessToken={accessToken}
+* 签到到达 —— /sign/in?accessToken={accessToken}
 
 参数 | 说明
 ------|------------
@@ -258,7 +258,7 @@ content | 动态正文部分
 }
 ```
 
-* ##### 签到离开 —— /sign/out?accessToken={accessToken}
+* 签到离开 —— /sign/out?accessToken={accessToken}
 
 参数 | 说明
 ------|------------
@@ -275,7 +275,7 @@ content | 动态正文部分
 }
 ```
 
-* ##### 以query形式获取历史签到情况(快捷方式) —— /sign/query?accessToken={accessToken}&query={query}
+* 以query形式获取历史签到情况(快捷方式) —— /sign/history_query?accessToken={accessToken}&query={query}
 
 参数 | 说明
 ------|------------
@@ -313,4 +313,120 @@ content | 动态正文部分
 }
 ```
 
+* 获取历史签到情况(检索begin-end时间段之内的信息) —— /sign/history_time?accessToken={accessToken}&begin={begin}&end={end}
 
+参数 | 说明
+------|------------
+**accessToken** | 用户唯一标识，用其做身份验证
+ begin | 检索开始时间  格式yyyy-MM-dd 如: 2015-12-16
+ end | 检索结束时间  格式yyyy-MM-dd 如: 2015-12-16
+
+```JSON
+{
+    "status":200,
+    "records":[
+        {
+            "id":1,
+            "stuID":"04121110",
+            "operation":1,
+            "date":1450165769000
+        },
+        {
+            "id":2,
+            "stuID":"04121110",
+            "operation":0,
+            "date":1450165904000
+        },
+        {
+            "id":3,
+            "stuID":"04121110",
+            "operation":1,
+            "date":1450166318000
+        }
+    ]
+}
+
+{
+    "status":500,
+    "errorMessage":"AccessToken无效"
+}
+```
+
+* 以query形式获取某人的历史签到情况(快捷方式) —— /sign/history_query?accessToken={accessToken}&query={query}&stuID={stuID}
+
+参数 | 说明
+------|------------
+**accessToken** | 用户唯一标识，用其做身份验证
+ query | 取值：day/today、week、month、year、yesterday、last_week、last_month、last_year
+ stuID | 学号
+
+```JSON
+{
+    "status":200,
+    "records":[
+        {
+            "id":1,
+            "stuID":"04121110",
+            "operation":1,
+            "date":1450165769000
+        },
+        {
+            "id":2,
+            "stuID":"04121110",
+            "operation":0,
+            "date":1450165904000
+        },
+        {
+            "id":3,
+            "stuID":"04121110",
+            "operation":1,
+            "date":1450166318000
+        }
+    ]
+}
+
+{
+    "status":500,
+    "errorMessage":"AccessToken无效"
+}
+```
+
+* 获取某人的历史签到情况(检索begin-end时间段之内的信息) —— /sign/history_time?accessToken={accessToken}&begin={begin}&end={end}&stuID={stuID}
+
+参数 | 说明
+------|------------
+**accessToken** | 用户唯一标识，用其做身份验证
+ begin | 检索开始时间  格式yyyy-MM-dd 如: 2015-12-16
+ end | 检索结束时间  格式yyyy-MM-dd 如: 2015-12-16
+ stuID | 学号
+
+```JSON
+{
+    "status":200,
+    "records":[
+        {
+            "id":1,
+            "stuID":"04121110",
+            "operation":1,
+            "date":1450165769000
+        },
+        {
+            "id":2,
+            "stuID":"04121110",
+            "operation":0,
+            "date":1450165904000
+        },
+        {
+            "id":3,
+            "stuID":"04121110",
+            "operation":1,
+            "date":1450166318000
+        }
+    ]
+}
+
+{
+    "status":500,
+    "errorMessage":"AccessToken无效"
+}
+```
