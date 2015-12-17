@@ -1,5 +1,6 @@
 package com.glacier.tz.controller;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.glacier.tz.model.Notice;
 import com.glacier.tz.service.AccountService;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.net.URLDecoder;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class NoticeController {
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
-            result.put("errorMessage", "Access Token 无效");
+            result.put("errorMessage", "AccessToken无效");
             return result;
         }
         if (noticeService.addNotice(accessToken, content) == 0) {
@@ -46,12 +47,24 @@ public class NoticeController {
 
     @ResponseBody
     @RequestMapping("/all")
-    public JSONObject listNotice() {
+    public JSONObject listNotice(@RequestParam("accessToken")String accessToken) {
         JSONObject result = new JSONObject();
+        if (accountService.getStudentByAccessToken(accessToken) == null) {
+            result.put("status", 500);
+            result.put("errorMessage", "AccessToken无效");
+            return result;
+        }
         List<Notice> notices = noticeService.getAllNotice();
         if ( notices != null && notices.size() != 0 ) {
+            JSONObject tmp = new JSONObject();
+            tmp.put("tmp", notices);
+            JSONArray jsonArray = tmp.getJSONArray("tmp");
+            for (Iterator iterator = jsonArray.iterator(); iterator.hasNext(); ) {
+                tmp = (JSONObject)iterator.next();
+                tmp.put("stuID", accountService.selectStuIDByAccessToken((String)tmp.remove("accessToken")));
+            }
             result.put("status", 200);
-            result.put("notices", notices);
+            result.put("notices", jsonArray);
         }
         else {
             result.put("status", 500);
@@ -61,13 +74,25 @@ public class NoticeController {
     }
 
     @ResponseBody
-    @RequestMapping("/list")
-    public JSONObject listNotice(@RequestParam("skip")Integer skip) {
+    @RequestMapping("/section")
+    public JSONObject sectionNotice(@RequestParam("accessToken")String accessToken, @RequestParam("skip")Integer skip) {
         JSONObject result = new JSONObject();
+        if (accountService.getStudentByAccessToken(accessToken) == null) {
+            result.put("status", 500);
+            result.put("errorMessage", "AccessToken无效");
+            return result;
+        }
         List<Notice> notices = noticeService.getNoticeList(skip);
         if ( notices != null && notices.size() != 0 ) {
+            JSONObject tmp = new JSONObject();
+            tmp.put("tmp", notices);
+            JSONArray jsonArray = tmp.getJSONArray("tmp");
+            for (Iterator iterator = jsonArray.iterator(); iterator.hasNext(); ) {
+                tmp = (JSONObject)iterator.next();
+                tmp.put("stuID", accountService.selectStuIDByAccessToken((String)tmp.remove("accessToken")));
+            }
             result.put("status", 200);
-            result.put("notices", notices);
+            result.put("notices", jsonArray);
         }
         else {
             result.put("status", 500);
@@ -78,12 +103,24 @@ public class NoticeController {
 
     @ResponseBody
     @RequestMapping("/refresh")
-    public JSONObject refreshNotice(@RequestParam("lastID")Integer id) {
+    public JSONObject refreshNotice(@RequestParam("accessToken")String accessToken, @RequestParam("lastID")Integer id) {
         JSONObject result = new JSONObject();
+        if (accountService.getStudentByAccessToken(accessToken) == null) {
+            result.put("status", 500);
+            result.put("errorMessage", "AccessToken无效");
+            return result;
+        }
         List<Notice> notices = noticeService.refresh(id);
         if ( notices != null && notices.size() != 0 ) {
+            JSONObject tmp = new JSONObject();
+            tmp.put("tmp", notices);
+            JSONArray jsonArray = tmp.getJSONArray("tmp");
+            for (Iterator iterator = jsonArray.iterator(); iterator.hasNext(); ) {
+                tmp = (JSONObject)iterator.next();
+                tmp.put("stuID", accountService.selectStuIDByAccessToken((String)tmp.remove("accessToken")));
+            }
             result.put("status", 200);
-            result.put("notices", notices);
+            result.put("notices", jsonArray);
         }
         else {
             result.put("status", 500);
@@ -93,9 +130,14 @@ public class NoticeController {
     }
 
     @ResponseBody
-    @RequestMapping("/list_person")
-    public JSONObject listNotice(@RequestParam("stuID")String stuID, @RequestParam("skip")Integer skip) {
+    @RequestMapping("/section_person")
+    public JSONObject sectionPersonNotice(@RequestParam("accessToken")String accessToken, @RequestParam("stuID")String stuID, @RequestParam("skip")Integer skip) {
         JSONObject result = new JSONObject();
+        if (accountService.getStudentByAccessToken(accessToken) == null) {
+            result.put("status", 500);
+            result.put("errorMessage", "AccessToken无效");
+            return result;
+        }
         if (accountService.selectAccessTokenByStuID(stuID) == null) {
             result.put("status", 500);
             result.put("errorMessage", "该用户在系统中不存在");
@@ -104,8 +146,15 @@ public class NoticeController {
 
         List<Notice> notices = noticeService.getNoticeListWithStuID(stuID, skip);
         if ( notices != null && notices.size() != 0 ) {
+            JSONObject tmp = new JSONObject();
+            tmp.put("tmp", notices);
+            JSONArray jsonArray = tmp.getJSONArray("tmp");
+            for (Iterator iterator = jsonArray.iterator(); iterator.hasNext(); ) {
+                tmp = (JSONObject)iterator.next();
+                tmp.put("stuID", accountService.selectStuIDByAccessToken((String)tmp.remove("accessToken")));
+            }
             result.put("status", 200);
-            result.put("notices", notices);
+            result.put("notices", jsonArray);
         }
         else {
             result.put("status", 500);

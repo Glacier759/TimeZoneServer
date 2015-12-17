@@ -18,4 +18,6 @@ public interface AccountService {
     public List<Student> selectAllStudents();
 
     public String selectAccessTokenByStuID(String stuID);
+
+    String selectStuIDByAccessToken(String accessToken);
 }

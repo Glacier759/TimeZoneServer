@@ -172,5 +172,9 @@
         select access_token
         from tb_student_info WHERE stu_id = #{stuId,jdbcType=VARCHAR}
     </select>
+    <select id="selectStuIDByAccessToken" resultType="java.lang.String" parameterType="java.lang.String">
+        select stu_id
+        from tb_student_info WHERE access_token = #{accessToken,jdbcType=VARCHAR}
+    </select>
 
 </mapper>

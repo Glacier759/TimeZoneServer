@@ -3,6 +3,9 @@ package com.glacier.tz.model;
 import java.util.Date;
 
 public class Sign {
+
+    public Sign(){}
+
     private Integer id;
 
     private String accessToken;

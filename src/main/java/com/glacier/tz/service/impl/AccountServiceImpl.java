@@ -97,4 +97,8 @@ public class AccountServiceImpl implements AccountService {
         return studentMapper.selectAccessTokenByStuID(stuID);
     }
 
+    public String selectStuIDByAccessToken(String accessToken) {
+        return studentMapper.selectStuIDByAccessToken(accessToken);
+    }
+
 }

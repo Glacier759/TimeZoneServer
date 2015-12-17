@@ -5,15 +5,10 @@
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="operation" property="operation" jdbcType="INTEGER" />
     <result column="date" property="date" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <resultMap id="ResultMapWithAccess" type="com.glacier.tz.model.Sign" extends="BaseResultMap">
     <result column="access_token" property="accessToken" jdbcType="CHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, operation, date
-  </sql>
-  <sql id="Access_Column_List">
-    access_token
+    id, access_token, operation, date
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 

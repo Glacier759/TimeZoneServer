@@ -30,4 +30,5 @@ public interface StudentMapper {
 
     String selectAccessTokenByStuID(String stuId);
 
+    String selectStuIDByAccessToken(String accessToken);
 }
