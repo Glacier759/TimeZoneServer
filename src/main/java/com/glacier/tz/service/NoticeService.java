@@ -15,4 +15,8 @@ public interface NoticeService {
 
     public List<Notice> getNoticeListWithStuID(String stuID, Integer skip);
 
+    public List<Notice> getAllNotice();
+
+    public List<Notice> refresh(Integer id);
+
 }

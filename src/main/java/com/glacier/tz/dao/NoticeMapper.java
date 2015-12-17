@@ -3,7 +3,6 @@ package com.glacier.tz.dao;
 import com.glacier.tz.model.Notice;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.HashMap;
 import java.util.List;
 
 public interface NoticeMapper {
@@ -22,4 +21,8 @@ public interface NoticeMapper {
     List<Notice> selectNoticeWithSkip(Integer skip);
 
     List<Notice> selectNoticeWithSkipAndStuID(@Param("accessToken")String accessToken, @Param("skip")Integer skip);
+
+    List<Notice> selectAllNotice();
+
+    List<Notice> refresh(Integer lastID);
 }

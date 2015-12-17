@@ -95,5 +95,14 @@
     <include refid="Base_Column_List" />
     from tb_notice where (access_token = #{accessToken,jdbcType=CHAR}) limit #{skip,jdbcType=INTEGER},10
   </select>
-
+  <select id="selectAllNotice" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_notice;
+  </select>
+  <select id="refresh" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from tb_notice where id > #{lastID,jdbcType=INTEGER}
+  </select>
 </mapper>

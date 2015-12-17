@@ -38,4 +38,12 @@ public class NoticeServiceImpl implements NoticeService {
         String accessToken = studentMapper.selectAccessTokenByStuID(stuID);
         return noticeMapper.selectNoticeWithSkipAndStuID(accessToken, skip * 10);
     }
+
+    public List<Notice> getAllNotice() {
+        return noticeMapper.selectAllNotice();
+    }
+
+    public List<Notice> refresh(Integer id) {
+        return noticeMapper.refresh(id);
+    }
 }

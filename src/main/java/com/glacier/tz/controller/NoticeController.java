@@ -45,10 +45,42 @@ public class NoticeController {
     }
 
     @ResponseBody
+    @RequestMapping("/all")
+    public JSONObject listNotice() {
+        JSONObject result = new JSONObject();
+        List<Notice> notices = noticeService.getAllNotice();
+        if ( notices != null && notices.size() != 0 ) {
+            result.put("status", 200);
+            result.put("notices", notices);
+        }
+        else {
+            result.put("status", 500);
+            result.put("errorMessage", "没啦！");
+        }
+        return result;
+    }
+
+    @ResponseBody
     @RequestMapping("/list")
     public JSONObject listNotice(@RequestParam("skip")Integer skip) {
         JSONObject result = new JSONObject();
         List<Notice> notices = noticeService.getNoticeList(skip);
+        if ( notices != null && notices.size() != 0 ) {
+            result.put("status", 200);
+            result.put("notices", notices);
+        }
+        else {
+            result.put("status", 500);
+            result.put("errorMessage", "没啦！");
+        }
+        return result;
+    }
+
+    @ResponseBody
+    @RequestMapping("/refresh")
+    public JSONObject refreshNotice(@RequestParam("lastID")Integer id) {
+        JSONObject result = new JSONObject();
+        List<Notice> notices = noticeService.refresh(id);
         if ( notices != null && notices.size() != 0 ) {
             result.put("status", 200);
             result.put("notices", notices);
