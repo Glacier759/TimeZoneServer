@@ -1,6 +1,5 @@
 package com.glacier.tz.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.glacier.tz.model.Sign;
@@ -9,10 +8,7 @@ import com.glacier.tz.service.SignService;
 import com.glacier.tz.utils.TimeUtils;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Iterator;
@@ -60,8 +56,8 @@ public class SignController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/history_query", method = RequestMethod.GET)
-    public JSONObject history_query(@RequestParam("accessToken") String accessToken, @RequestParam("query") String query) {
+    @RequestMapping(value = "/{query}", method = RequestMethod.GET)
+    public JSONObject history_query(@RequestParam("accessToken") String accessToken, @PathVariable("query") String query) {
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
@@ -119,7 +115,7 @@ public class SignController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/history_time", method = RequestMethod.GET)
+    @RequestMapping(value = "/time", method = RequestMethod.GET)
     public JSONObject histroy_time(@RequestParam("accessToken") String accessToken, @RequestParam("begin") String beginDate, @RequestParam("end") String endDate) {
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
@@ -132,11 +128,11 @@ public class SignController {
                 result.put("status", 200);
                 result.put("records", signService.getRecordsByDate(beginDate, endDate));
             } else {
-                result.put("status", 500);
+                result.put("status", 502);
                 result.put("errorMessage", "輸入日期格式有誤");
             }
         } else if (beginDate == null && endDate == null) {
-            result.put("status", 500);
+            result.put("status", 503);
             result.put("errorMessage", "参数缺失");
         } else {
             if (beginDate != null && TimeUtils.checkDateFormat(beginDate)) {
@@ -160,8 +156,8 @@ public class SignController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/history_query_person", method = RequestMethod.GET)
-    public JSONObject history_query_person(@RequestParam("accessToken") String accessToken, @RequestParam("stuID") String stuID, @RequestParam("query") String query) {
+    @RequestMapping(value = "/{stuID}/{query}", method = RequestMethod.GET)
+    public JSONObject history_query_person(@RequestParam("accessToken") String accessToken, @PathVariable("stuID") String stuID, @PathVariable("query") String query) {
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
@@ -169,7 +165,7 @@ public class SignController {
             return result;
         }
         if (accountService.selectAccessTokenByStuID(stuID) == null) {
-            result.put("status", 500);
+            result.put("status", 501);
             result.put("errorMessage", "该用户在系统中不存在");
             return result;
         }
@@ -224,8 +220,9 @@ public class SignController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/history_time_person", method = RequestMethod.GET)
-    public JSONObject histroy_time_person(@RequestParam("accessToken") String accessToken, @RequestParam("stuID") String stuID, @RequestParam("begin") String beginDate, @RequestParam("end") String endDate) {
+    @RequestMapping(value = "/time/{stuID}", method = RequestMethod.GET)
+    public JSONObject histroy_time_person(@RequestParam("accessToken") String accessToken, @PathVariable("stuID") String stuID,
+                                          @RequestParam("begin") String beginDate, @RequestParam("end") String endDate) {
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
@@ -233,7 +230,7 @@ public class SignController {
             return result;
         }
         if (accountService.selectAccessTokenByStuID(stuID) == null) {
-            result.put("status", 500);
+            result.put("status", 501);
             result.put("errorMessage", "该用户在系统中不存在");
             return result;
         }
@@ -242,11 +239,11 @@ public class SignController {
                 result.put("status", 200);
                 result.put("records", signService.getRecordsByDate(beginDate, endDate));
             } else {
-                result.put("status", 500);
+                result.put("status", 502);
                 result.put("errorMessage", "輸入日期格式有誤");
             }
         } else if (beginDate == null && endDate == null) {
-            result.put("status", 500);
+            result.put("status", 503);
             result.put("errorMessage", "参数缺失");
         } else {
             if (beginDate != null && TimeUtils.checkDateFormat(beginDate)) {

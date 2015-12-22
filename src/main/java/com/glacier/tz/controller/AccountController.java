@@ -41,7 +41,7 @@ public class AccountController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/{stuID}", method = RequestMethod.POST)
+    @RequestMapping(value = "/{stuID}", method = RequestMethod.PUT)
     public JSONObject introduction(@RequestParam("accessToken")String accessToken, @PathVariable("stuID")String stuID, @RequestParam("content")String introduction) {
 
         JSONObject result = new JSONObject();
@@ -52,26 +52,26 @@ public class AccountController {
         else if ( accountService.updateIntroduction(accessToken, introduction) != 0){
             result.put("status", 200);
         }
-        else {
-            result.put("status", 500);
-            result.put("errorMessage", "更新失败，AccessToken无效");
-        }
         return result;
     }
 
     @ResponseBody
     @RequestMapping(value = "/{stuID}", method = RequestMethod.GET)
-    public JSONObject information(@RequestParam("accessToken")String accessToken, @PathVariable("stuID")String stuID) {
+    public JSONObject information(@PathVariable("stuID")String stuID) {
 
         JSONObject result = new JSONObject();
-        Student student = accountService.getStudentByAccessToken(accessToken);
-        if ( !accountService.isAccessTokenBelongStuID(accessToken, stuID) ) {
+        Student student = null;
+        String accessToken = null;
+
+        if ( (accessToken = accountService.selectAccessTokenByStuID(stuID)) == null ) {
             result.put("status", 500);
-            result.put("errorMessage", "AccessToken与StuID不匹配");
+            result.put("errorMessage", "无该用户");
         }
-        else if ( student != null ){
+        else if ( (student = accountService.getStudentByAccessToken(accessToken)) != null ){
             result.put("status", 200);
-            result.put("info", JSON.parseObject(JSON.toJSONString(student)));
+            JSONObject infobj = JSON.parseObject(JSON.toJSONString(student));
+            infobj.remove("accessToken");
+            result.put("info", infobj);
         }
         return result;
     }

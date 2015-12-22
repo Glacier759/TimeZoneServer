@@ -6,10 +6,7 @@ import com.glacier.tz.model.Notice;
 import com.glacier.tz.service.AccountService;
 import com.glacier.tz.service.NoticeService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.Iterator;
@@ -28,7 +25,7 @@ public class NoticeController {
     private AccountService accountService;
 
     @ResponseBody
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.POST)
     public JSONObject addNotice(@RequestParam("accessToken")String accessToken, @RequestParam("content")String content) {
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
@@ -46,7 +43,7 @@ public class NoticeController {
     }
 
     @ResponseBody
-    @RequestMapping("/all")
+    @RequestMapping(method = RequestMethod.GET)
     public JSONObject listNotice(@RequestParam("accessToken")String accessToken) {
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
@@ -74,8 +71,8 @@ public class NoticeController {
     }
 
     @ResponseBody
-    @RequestMapping("/section")
-    public JSONObject sectionNotice(@RequestParam("accessToken")String accessToken, @RequestParam("skip")Integer skip) {
+    @RequestMapping(value = "/{skip}", method = RequestMethod.GET)
+    public JSONObject sectionNotice(@RequestParam("accessToken")String accessToken, @PathVariable("skip")Integer skip) {
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
@@ -102,8 +99,8 @@ public class NoticeController {
     }
 
     @ResponseBody
-    @RequestMapping("/refresh")
-    public JSONObject refreshNotice(@RequestParam("accessToken")String accessToken, @RequestParam("lastID")Integer id) {
+    @RequestMapping(value = "/refresh/{lastID}",method = RequestMethod.GET)
+    public JSONObject refreshNotice(@RequestParam("accessToken")String accessToken, @PathVariable("lastID")Integer id) {
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
@@ -130,8 +127,8 @@ public class NoticeController {
     }
 
     @ResponseBody
-    @RequestMapping("/section_person")
-    public JSONObject sectionPersonNotice(@RequestParam("accessToken")String accessToken, @RequestParam("stuID")String stuID, @RequestParam("skip")Integer skip) {
+    @RequestMapping(value = "/{stuID}/{skip}", method = RequestMethod.GET)
+    public JSONObject sectionPersonNotice(@RequestParam("accessToken")String accessToken, @PathVariable("stuID")String stuID, @PathVariable("skip")Integer skip) {
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
