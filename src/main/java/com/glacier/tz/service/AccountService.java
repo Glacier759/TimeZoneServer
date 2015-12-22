@@ -9,15 +9,18 @@ import java.util.List;
  */
 public interface AccountService {
 
-    public Student login(String tid, String password);
+    Student login(String tid, String password);
 
-    public int updateIntroduction(String accessToken, String introduction);
+    int updateIntroduction(String accessToken, String introduction);
 
-    public Student getStudentByAccessToken(String accessToken);
+    Student getStudentByAccessToken(String accessToken);
 
-    public List<Student> selectAllStudents();
+    List<Student> selectAllStudents();
 
-    public String selectAccessTokenByStuID(String stuID);
+    String selectAccessTokenByStuID(String stuID);
 
     String selectStuIDByAccessToken(String accessToken);
+
+    boolean isAccessTokenBelongStuID(String accessToken, String stuID);
+
 }

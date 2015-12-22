@@ -5,13 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.glacier.tz.model.Student;
 import com.glacier.tz.service.AccountService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.List;
 
 /**
  * Created by glacier on 15-12-2.
@@ -25,7 +21,7 @@ public class AccountController {
     private AccountService accountService;
 
     @ResponseBody
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.POST)
     public JSONObject login(@RequestParam("username")String username, @RequestParam("password")String password) {
 
         Student student = accountService.login(username, password);
@@ -45,11 +41,15 @@ public class AccountController {
 
 
     @ResponseBody
-    @RequestMapping(value = "/introduction", method = RequestMethod.GET)
-    public JSONObject information(@RequestParam("accessToken")String accessToken, @RequestParam("content")String introduction) {
+    @RequestMapping(value = "/{stuID}", method = RequestMethod.POST)
+    public JSONObject introduction(@RequestParam("accessToken")String accessToken, @PathVariable("stuID")String stuID, @RequestParam("content")String introduction) {
 
         JSONObject result = new JSONObject();
-        if ( accountService.updateIntroduction(accessToken, introduction) != 0){
+        if ( !accountService.isAccessTokenBelongStuID(accessToken, stuID) ) {
+            result.put("status", 500);
+            result.put("errorMessage", "AccessToken与StuID不匹配");
+        }
+        else if ( accountService.updateIntroduction(accessToken, introduction) != 0){
             result.put("status", 200);
         }
         else {
@@ -60,18 +60,18 @@ public class AccountController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/information", method = RequestMethod.GET)
-    public JSONObject information(@RequestParam("accessToken")String accessToken) {
+    @RequestMapping(value = "/{stuID}", method = RequestMethod.GET)
+    public JSONObject information(@RequestParam("accessToken")String accessToken, @PathVariable("stuID")String stuID) {
 
         JSONObject result = new JSONObject();
         Student student = accountService.getStudentByAccessToken(accessToken);
-        if ( student != null ){
+        if ( !accountService.isAccessTokenBelongStuID(accessToken, stuID) ) {
+            result.put("status", 500);
+            result.put("errorMessage", "AccessToken与StuID不匹配");
+        }
+        else if ( student != null ){
             result.put("status", 200);
             result.put("info", JSON.parseObject(JSON.toJSONString(student)));
-        }
-        else {
-            result.put("status", 500);
-            result.put("errorMessage", "AccessToken无效");
         }
         return result;
     }

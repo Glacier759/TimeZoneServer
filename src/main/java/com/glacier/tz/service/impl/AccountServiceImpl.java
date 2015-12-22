@@ -101,4 +101,12 @@ public class AccountServiceImpl implements AccountService {
         return studentMapper.selectStuIDByAccessToken(accessToken);
     }
 
+    public boolean isAccessTokenBelongStuID(String accessToken, String stuID) {
+        Student student = getStudentByAccessToken(accessToken);
+        if ( student != null && student.getStuId().equals(stuID) ) {
+            return true;
+        }
+        return false;
+    }
+
 }
