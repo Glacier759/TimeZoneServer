@@ -3,6 +3,7 @@ package com.glacier.tz.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.glacier.tz.model.Notice;
+import com.glacier.tz.model.Student;
 import com.glacier.tz.service.AccountService;
 import com.glacier.tz.service.NoticeService;
 import org.apache.log4j.Logger;
@@ -62,7 +63,9 @@ public class NoticeController {
             JSONArray jsonArray = tmp.getJSONArray("tmp");
             for (Iterator iterator = jsonArray.iterator(); iterator.hasNext(); ) {
                 tmp = (JSONObject)iterator.next();
-                tmp.put("stuID", accountService.selectStuIDByAccessToken((String)tmp.remove("accessToken")));
+                Student student = accountService.getStudentByAccessToken((String)tmp.remove("accessToken"));
+                tmp.put("stuID", student.getStuId());
+                tmp.put("stuName", student.getStuName());
             }
             result.put("status", 200);
             result.put("notices", jsonArray);
@@ -91,7 +94,9 @@ public class NoticeController {
             JSONArray jsonArray = tmp.getJSONArray("tmp");
             for (Iterator iterator = jsonArray.iterator(); iterator.hasNext(); ) {
                 tmp = (JSONObject)iterator.next();
-                tmp.put("stuID", accountService.selectStuIDByAccessToken((String)tmp.remove("accessToken")));
+                Student student = accountService.getStudentByAccessToken((String)tmp.remove("accessToken"));
+                tmp.put("stuID", student.getStuId());
+                tmp.put("stuName", student.getStuName());
             }
             result.put("status", 200);
             result.put("notices", jsonArray);
@@ -120,7 +125,9 @@ public class NoticeController {
             JSONArray jsonArray = tmp.getJSONArray("tmp");
             for (Iterator iterator = jsonArray.iterator(); iterator.hasNext(); ) {
                 tmp = (JSONObject)iterator.next();
-                tmp.put("stuID", accountService.selectStuIDByAccessToken((String)tmp.remove("accessToken")));
+                Student student = accountService.getStudentByAccessToken((String)tmp.remove("accessToken"));
+                tmp.put("stuID", student.getStuId());
+                tmp.put("stuName", student.getStuName());
             }
             result.put("status", 200);
             result.put("notices", jsonArray);
@@ -155,7 +162,9 @@ public class NoticeController {
             JSONArray jsonArray = tmp.getJSONArray("tmp");
             for (Iterator iterator = jsonArray.iterator(); iterator.hasNext(); ) {
                 tmp = (JSONObject)iterator.next();
-                tmp.put("stuID", accountService.selectStuIDByAccessToken((String)tmp.remove("accessToken")));
+                Student student = accountService.getStudentByAccessToken((String)tmp.remove("accessToken"));
+                tmp.put("stuID", student.getStuId());
+                tmp.put("stuName", student.getStuName());
             }
             result.put("status", 200);
             result.put("notices", jsonArray);

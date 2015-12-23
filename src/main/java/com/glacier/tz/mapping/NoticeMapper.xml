@@ -83,21 +83,23 @@
   <select id="selectNoticeWithSkip" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
-    from tb_notice limit #{id,jdbcType=INTEGER},10
+    from tb_notice limit order by id desc #{id,jdbcType=INTEGER},10
   </select>
   <select id="selectNoticeWithSkipAndStuID" resultMap="BaseResultMap" parameterType="java.util.Map" >
     select
     <include refid="Base_Column_List" />
-    from tb_notice where (access_token = #{accessToken,jdbcType=CHAR}) limit #{skip,jdbcType=INTEGER},10
+    from tb_notice where (access_token = #{accessToken,jdbcType=CHAR}) order by id desc limit #{skip,jdbcType=INTEGER},10
   </select>
   <select id="selectAllNotice" resultMap="BaseResultMap" >
     select
     <include refid="Base_Column_List" />
-    from tb_notice;
+    from tb_notice order by id desc;
   </select>
   <select id="refresh" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
-    from tb_notice where id > #{lastID,jdbcType=INTEGER}
+    <![CDATA[
+      from tb_notice where id > #{lastID,jdbcType=INTEGER}
+    ]]>
   </select>
 </mapper>

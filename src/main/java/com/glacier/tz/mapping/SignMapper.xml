@@ -84,7 +84,7 @@
     <include refid="Base_Column_List" />
     from tb_sign
     <![CDATA[
-      where date >= #{begin,jdbcType=VARCHAR} and date <= #{end,jdbcType=VARCHAR}
+      where date >= #{begin,jdbcType=VARCHAR} and date <= #{end,jdbcType=VARCHAR} order by id desc
     ]]>
   </select>
   <select id="selectSignRecordsWithAccessToken" resultMap="BaseResultMap" parameterType="java.util.Map" >
@@ -93,7 +93,7 @@
     from tb_sign
     <![CDATA[
       where date >= #{begin,jdbcType=VARCHAR} and date <= #{end,jdbcType=VARCHAR}
-                                              and access_token =  #{accessToken,jdbcType=CHAR}
+                                              and access_token =  #{accessToken,jdbcType=CHAR} order by id desc
     ]]>
   </select>
 

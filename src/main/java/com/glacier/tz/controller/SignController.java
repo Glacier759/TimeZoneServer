@@ -3,6 +3,7 @@ package com.glacier.tz.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.glacier.tz.model.Sign;
+import com.glacier.tz.model.Student;
 import com.glacier.tz.service.AccountService;
 import com.glacier.tz.service.SignService;
 import com.glacier.tz.utils.TimeUtils;
@@ -111,7 +112,9 @@ public class SignController {
         JSONArray jsonArray = tmp.getJSONArray("tmp");
         for (Iterator iterator = jsonArray.iterator(); iterator.hasNext(); ) {
             tmp = (JSONObject)iterator.next();
-            tmp.put("stuID", accountService.selectStuIDByAccessToken((String)tmp.remove("accessToken")));
+            Student student = accountService.getStudentByAccessToken((String)tmp.remove("accessToken"));
+            tmp.put("stuID", student.getStuId());
+            tmp.put("stuName", student.getStuName());
         }
         result.put("status", 200);
         result.put("records", jsonArray);
@@ -153,7 +156,9 @@ public class SignController {
             JSONArray jsonArray = tmp.getJSONArray("tmp");
             for (Iterator iterator = jsonArray.iterator(); iterator.hasNext(); ) {
                 tmp = (JSONObject)iterator.next();
-                tmp.put("stuID", accountService.selectStuIDByAccessToken((String)tmp.remove("accessToken")));
+                Student student = accountService.getStudentByAccessToken((String)tmp.remove("accessToken"));
+                tmp.put("stuID", student.getStuId());
+                tmp.put("stuName", student.getStuName());
             }
             result.put("status", 200);
             result.put("records", jsonArray);
@@ -218,7 +223,9 @@ public class SignController {
         JSONArray jsonArray = tmp.getJSONArray("tmp");
         for (Iterator iterator = jsonArray.iterator(); iterator.hasNext(); ) {
             tmp = (JSONObject)iterator.next();
-            tmp.put("stuID", accountService.selectStuIDByAccessToken((String)tmp.remove("accessToken")));
+            Student student = accountService.getStudentByAccessToken((String)tmp.remove("accessToken"));
+            tmp.put("stuID", student.getStuId());
+            tmp.put("stuName", student.getStuName());
         }
         result.put("status", 200);
         result.put("records", jsonArray);
@@ -266,7 +273,9 @@ public class SignController {
             JSONArray jsonArray = tmp.getJSONArray("tmp");
             for (Iterator iterator = jsonArray.iterator(); iterator.hasNext(); ) {
                 tmp = (JSONObject)iterator.next();
-                tmp.put("stuID", accountService.selectStuIDByAccessToken((String)tmp.remove("accessToken")));
+                Student student = accountService.getStudentByAccessToken((String)tmp.remove("accessToken"));
+                tmp.put("stuID", student.getStuId());
+                tmp.put("stuName", student.getStuName());
             }
             result.put("status", 200);
             result.put("records", jsonArray);
