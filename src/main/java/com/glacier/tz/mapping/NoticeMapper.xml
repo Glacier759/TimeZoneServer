@@ -83,7 +83,7 @@
   <select id="selectNoticeWithSkip" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
-    from tb_notice limit order by id desc #{id,jdbcType=INTEGER},10
+    from tb_notice order by id desc limit #{id,jdbcType=INTEGER},10
   </select>
   <select id="selectNoticeWithSkipAndStuID" resultMap="BaseResultMap" parameterType="java.util.Map" >
     select

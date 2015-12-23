@@ -1,9 +1,11 @@
 
-
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.glacier.tz.model.Student;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import org.apache.log4j.Logger;
+
 
 
 /**
@@ -14,18 +16,21 @@ public class Test {
     public static void main(String[] args) {
         Logger logger = Logger.getLogger(Test.class);
 
-        String json = "{\"status\":200,\"info\":{\"stuId\":\"04121110\",\"stuClass\":\"计科1204\",\"id\":1,\"stuName\":\"任立翔\",\"accessToken\":\"7f145147b41f03b24fc8cb9a0a1a34bd\",\"stuMajor\":\"计算机科学与技术\",\"stuIntroduction\":\"这是全新的自我介绍哟~\"}}";
-        JSONObject jsonObject = JSON.parseObject(json);
-        JSONObject stuInfo = jsonObject.getJSONObject("info");
-        Student student = new Student();
-        student.setId(stuInfo.getInteger("id"));
-        student.setStuId(stuInfo.getString("stuId"));
-        student.setStuName(stuInfo.getString("stuName"));
-        student.setStuClass(stuInfo.getString("stuClass"));
-        student.setStuMajor(stuInfo.getString("stuMajor"));
-        student.setAccessToken(stuInfo.getString("accessToken"));
-        student.setStuIntroduction(stuInfo.getString("stuIntroduction"));
-        System.out.println(student);
+        RequestQueue requestQueue = Volley.newRequestQueue(null);
+
+        StringRequest stringRequest = new StringRequest("http://222.24.63.100:9160/TimeZone/account/login?username=04121110&password=glacierlx1994",
+                new Response.Listener<String>() {
+                    public void onResponse(String response) {
+                        System.out.println(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError volleyError) {
+                System.out.println(volleyError.getMessage());
+            }
+        });
+
+        requestQueue.add(stringRequest);
 
     }
 
