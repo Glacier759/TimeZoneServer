@@ -24,8 +24,7 @@ import java.util.List;
 @Service
 public class AccountServiceImpl implements AccountService {
 
-    Logger logger = Logger.getLogger(AccountServiceImpl.class);
-
+    private static Logger logger = Logger.getLogger(AccountServiceImpl.class);
     @Resource
     private StudentMapper studentMapper;
 
@@ -64,12 +63,12 @@ public class AccountServiceImpl implements AccountService {
                 Student stu = studentMapper.selectByStudentID(student.getStuId());
                 if ( stu != null ) {
                     student = stu;
-                    logger.info("login - " + JSON.toJSONString(student));
+                    logger.info("[service] login - " + JSON.toJSONString(student));
                 }
                 else {
                     student.setStuIntroduction("他还没有填写自我介绍哟~");
                     studentMapper.insert(student);
-                    logger.info("new user - " + JSON.toJSONString(student));
+                    logger.info("[service] new user - " + JSON.toJSONString(student));
                 }
             }
         }
@@ -81,7 +80,7 @@ public class AccountServiceImpl implements AccountService {
         params.put("accessToken", accessToken);
         params.put("introduction", introduction);
         int status = studentMapper.updateIntroductionByAccessToken(params);
-        logger.info("update introduction - access_token: " + accessToken + "\tinfo: " + introduction);
+        logger.info("[service] update introduction - access_token: " + accessToken + "\tinfo: " + introduction);
         return status;
     }
 

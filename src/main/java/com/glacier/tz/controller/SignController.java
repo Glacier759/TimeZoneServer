@@ -7,6 +7,7 @@ import com.glacier.tz.service.AccountService;
 import com.glacier.tz.service.SignService;
 import com.glacier.tz.utils.TimeUtils;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,7 @@ import java.util.List;
 @Controller
 public class SignController {
 
+    private static Logger logger = Logger.getLogger(SignController.class);
     @Resource
     private SignService signService;
     @Resource
@@ -29,6 +31,7 @@ public class SignController {
     @ResponseBody
     @RequestMapping(value = "/in", method = RequestMethod.GET)
     public JSONObject signin(@RequestParam("accessToken") String accessToken) {
+        logger.info("[controller] sign in - stuID: " + accountService.selectStuIDByAccessToken(accessToken) + "\taccessToken: " + accessToken);
         JSONObject result = new JSONObject();
 
         if (accountService.getStudentByAccessToken(accessToken) != null
@@ -44,6 +47,7 @@ public class SignController {
     @ResponseBody
     @RequestMapping(value = "/out", method = RequestMethod.GET)
     public JSONObject signout(@RequestParam("accessToken") String accessToken) {
+        logger.info("[controller] sign out - stuID: " + accountService.selectStuIDByAccessToken(accessToken) + "\taccessToken: " + accessToken);
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) != null
                 && signService.signOperation(accessToken, 0) != 0) {
@@ -58,6 +62,7 @@ public class SignController {
     @ResponseBody
     @RequestMapping(value = "/{query}", method = RequestMethod.GET)
     public JSONObject history_query(@RequestParam("accessToken") String accessToken, @PathVariable("query") String query) {
+        logger.info("[controller] history query - stuID: " + accountService.selectStuIDByAccessToken(accessToken) + "\taccessToken: " + accessToken + "\tquery: " + query);
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
@@ -116,7 +121,8 @@ public class SignController {
 
     @ResponseBody
     @RequestMapping(value = "/time", method = RequestMethod.GET)
-    public JSONObject histroy_time(@RequestParam("accessToken") String accessToken, @RequestParam("begin") String beginDate, @RequestParam("end") String endDate) {
+    public JSONObject history_time(@RequestParam("accessToken") String accessToken, @RequestParam("begin") String beginDate, @RequestParam("end") String endDate) {
+        logger.info("[controller] history time - stuID: " + accountService.selectStuIDByAccessToken(accessToken) + "\taccessToken: " + accessToken + "\tbengin: " + beginDate + "\tend: " + endDate);
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
@@ -158,6 +164,7 @@ public class SignController {
     @ResponseBody
     @RequestMapping(value = "/{stuID}/{query}", method = RequestMethod.GET)
     public JSONObject history_query_person(@RequestParam("accessToken") String accessToken, @PathVariable("stuID") String stuID, @PathVariable("query") String query) {
+        logger.info("[controller] history query person - stuID: " + stuID + "\taccessToken: " + accessToken + "\tquery: " + query);
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
@@ -221,8 +228,9 @@ public class SignController {
 
     @ResponseBody
     @RequestMapping(value = "/time/{stuID}", method = RequestMethod.GET)
-    public JSONObject histroy_time_person(@RequestParam("accessToken") String accessToken, @PathVariable("stuID") String stuID,
+    public JSONObject history_time_person(@RequestParam("accessToken") String accessToken, @PathVariable("stuID") String stuID,
                                           @RequestParam("begin") String beginDate, @RequestParam("end") String endDate) {
+        logger.info("[controller] history time person - stuID: " + stuID + "\taccessToken: " + accessToken + "\tbegin: " + beginDate + "\tend: " + endDate);
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);

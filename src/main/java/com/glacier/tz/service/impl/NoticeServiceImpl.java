@@ -5,6 +5,7 @@ import com.glacier.tz.dao.StudentMapper;
 import com.glacier.tz.model.Notice;
 import com.glacier.tz.service.AccountService;
 import com.glacier.tz.service.NoticeService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -18,6 +19,7 @@ import java.util.Objects;
 @Service
 public class NoticeServiceImpl implements NoticeService {
 
+    private static Logger logger = Logger.getLogger(NoticeServiceImpl.class);
     @Resource
     private NoticeMapper noticeMapper;
     @Resource

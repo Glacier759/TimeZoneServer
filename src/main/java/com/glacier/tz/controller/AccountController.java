@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.glacier.tz.model.Student;
 import com.glacier.tz.service.AccountService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,13 +18,14 @@ import javax.annotation.Resource;
 @RequestMapping("/account")
 public class AccountController {
 
+    private static Logger logger = Logger.getLogger(AccountController.class);
     @Resource
     private AccountService accountService;
 
     @ResponseBody
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public JSONObject login(@RequestParam("username")String username, @RequestParam("password")String password) {
-
+        logger.info("[controller] login - username: " + username +"\tpassword: " + password);
         Student student = accountService.login(username, password);
         JSONObject result = new JSONObject();
 
@@ -43,7 +45,7 @@ public class AccountController {
     @ResponseBody
     @RequestMapping(value = "/{stuID}", method = RequestMethod.PUT)
     public JSONObject introduction(@RequestParam("accessToken")String accessToken, @PathVariable("stuID")String stuID, @RequestParam("content")String introduction) {
-
+        logger.info("[controller] update introduction - stuID: " + stuID + "\taccessToken: " + accessToken + "\tcontent: " + introduction);
         JSONObject result = new JSONObject();
         if ( !accountService.isAccessTokenBelongStuID(accessToken, stuID) ) {
             result.put("status", 500);
@@ -58,7 +60,7 @@ public class AccountController {
     @ResponseBody
     @RequestMapping(value = "/{stuID}", method = RequestMethod.GET)
     public JSONObject information(@PathVariable("stuID")String stuID) {
-
+        logger.info("[controller] get information - stuID: " + stuID);
         JSONObject result = new JSONObject();
         Student student = null;
         String accessToken = null;

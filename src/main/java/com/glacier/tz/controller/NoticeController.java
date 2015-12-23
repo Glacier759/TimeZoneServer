@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.glacier.tz.model.Notice;
 import com.glacier.tz.service.AccountService;
 import com.glacier.tz.service.NoticeService;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ import java.util.List;
 @RequestMapping("/notice")
 public class NoticeController {
 
+    private static Logger logger = Logger.getLogger(NoticeController.class);
     @Resource
     private NoticeService noticeService;
     @Resource
@@ -27,6 +29,7 @@ public class NoticeController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
     public JSONObject addNotice(@RequestParam("accessToken")String accessToken, @RequestParam("content")String content) {
+        logger.info("[controller] add notice - stuID: " + accountService.selectStuIDByAccessToken(accessToken) + "\taccessToken: " + accessToken + "\tcontent: " + content);
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
@@ -45,6 +48,7 @@ public class NoticeController {
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public JSONObject listNotice(@RequestParam("accessToken")String accessToken) {
+        logger.info("[controller] get all notice - stuID: " + accountService.selectStuIDByAccessToken(accessToken) + "\taccessToken: " + accessToken);
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
@@ -73,6 +77,7 @@ public class NoticeController {
     @ResponseBody
     @RequestMapping(value = "/{skip}", method = RequestMethod.GET)
     public JSONObject sectionNotice(@RequestParam("accessToken")String accessToken, @PathVariable("skip")Integer skip) {
+        logger.info("[controller] skip notice - stuID: " + accountService.selectStuIDByAccessToken(accessToken) + "\taccessToken: " + accessToken + "\tskip: " + skip);
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
@@ -101,6 +106,7 @@ public class NoticeController {
     @ResponseBody
     @RequestMapping(value = "/refresh/{lastID}",method = RequestMethod.GET)
     public JSONObject refreshNotice(@RequestParam("accessToken")String accessToken, @PathVariable("lastID")Integer id) {
+        logger.info("[controller] refresh - stuID: " + accountService.selectStuIDByAccessToken(accessToken) + "\taccessToken: " + accessToken + "\tlastID: " + id);
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);
@@ -129,6 +135,7 @@ public class NoticeController {
     @ResponseBody
     @RequestMapping(value = "/{stuID}/{skip}", method = RequestMethod.GET)
     public JSONObject sectionPersonNotice(@RequestParam("accessToken")String accessToken, @PathVariable("stuID")String stuID, @PathVariable("skip")Integer skip) {
+        logger.info("[controller] person skip notice - stuID: " + stuID + "\taccessToken: " + accessToken + "\tskip: " + skip);
         JSONObject result = new JSONObject();
         if (accountService.getStudentByAccessToken(accessToken) == null) {
             result.put("status", 500);

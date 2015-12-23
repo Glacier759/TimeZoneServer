@@ -5,6 +5,7 @@ import com.glacier.tz.dao.StudentMapper;
 import com.glacier.tz.model.Sign;
 import com.glacier.tz.service.SignService;
 import com.glacier.tz.utils.TimeUtils;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,6 +18,7 @@ import java.util.List;
 @Service
 public class SignServiceImpl implements SignService {
 
+    private static Logger logger = Logger.getLogger(SignServiceImpl.class);
     @Resource
     private SignMapper signMapper;
     @Resource
@@ -39,6 +41,7 @@ public class SignServiceImpl implements SignService {
             params.put("begin", beginDate);
             params.put("end", endDate);
         }
+        logger.info("[service] record by date - params: " + params);
         return signMapper.selectSignRecords(params);
     }
 
@@ -53,6 +56,7 @@ public class SignServiceImpl implements SignService {
             params.put("end", endDate);
         }
         params.put("accessToken", studentMapper.selectAccessTokenByStuID(stuID));
+        logger.info("[service] record by date - params: " + params);
         return signMapper.selectSignRecordsWithAccessToken(params);
     }
 }

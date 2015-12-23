@@ -1,5 +1,9 @@
 
-import com.glacier.tz.model.Sign;
+
+import org.apache.log4j.Logger;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -8,33 +12,14 @@ import com.glacier.tz.model.Sign;
 public class Test {
 
     public static void main(String[] args) {
-        ItemViewModel itemViewModel = new ItemViewModel();
-        itemViewModel.name = "hahaha";
-        itemViewModel.content = "zouzouzou";
-
-        Test(itemViewModel);
+        Logger logger = Logger.getLogger(Test.class);
+        Map<String,String> parmas = new HashMap<String, String>();
+        parmas.put("a", "bbb");
+        parmas.put("c", "ddd");
+        System.out.println(parmas);
+        logger.info("[Test] params: " + parmas);
     }
 
-    public static void Test(ViewModel viewModel) {
-        System.out.println(viewModel);
-    }
-
-    public static class ViewModel {
-        public String name;
-        public String content;
-
-        public ViewModel() {
-
-        }
-        @Override
-        public String toString() {
-            return "ViewModel{name='" + name + '\'' + ", content='" + content + '\'' + '}';
-        }
-    }
-
-    public static class ItemViewModel extends ViewModel {
-
-    }
 
 }
 
